@@ -1,10 +1,10 @@
-# Local Deployment Tool for Klaytn
+# Local Deployment Tool for Klaytn ServiceChain
 
 <!-- vim-markdown-toc GFM -->
 
 * [Deploying the local Network](#deploying-the-local-network)
 	* [Prerequisites](#prerequisites)
-	* [Starting the Klaytn Network](#starting-the-klaytn-network)
+	* [Starting the Klaytn ServiceChain Network](#starting-the-klaytn-servicechain-network)
 		* [Chainging parameters](#chainging-parameters)
 	* [Checking out the Status of the Network](#checking-out-the-status-of-the-network)
 	* [Getting logs](#getting-logs)
@@ -13,6 +13,8 @@
 	* [Terminate the Network](#terminate-the-network)
 * [Developing Smart Contracts on the Local Network](#developing-smart-contracts-on-the-local-network)
 	* [Using KlaytnIDE](#using-klaytnide)
+* [FAQ](#FAQ)
+	* [SCN is not working](#SCN-is-not-working)
 
 <!-- vim-markdown-toc -->
 
@@ -24,7 +26,7 @@ Following packages are required.
 1. [Docker](https://docs.docker.com/get-docker/)
 1. [Docker-compose](https://docs.docker.com/compose/install/)
 
-## Starting the Klaytn Network
+## Starting the Klaytn ServiceChain Network
 Execute the following scripts:
 
 ```bash
@@ -32,7 +34,7 @@ $ ./1.prepare.sh
 $ ./2.start.sh
 ```
 
-It deployes 1 KCN network by default. 
+It deploys a network consisting of one KCN, KPN, KEN, and KSCN each by default. 
 
 
 ### Chainging parameters
@@ -40,11 +42,13 @@ You can change two parameters in `1.prepare.sh`.
 
 | Parameter | Description |
 |---|---|
-|CHAIN_ID| The chain ID of the deployed chain. (Default:203) |
-|NETWORK_ID| The network ID of the deployed chain. It would be better to set this value to the same value of CHAIN_ID for simplicity. (Default:203) |
+|CHAIN_ID| The chain ID of the deployed chain. (Default:1000) |
+|SCHAIN_ID| The service-chain ID of the deployed chain. (Default:2000) |
+|NETWORK_ID| The network ID of the deployed chain. (Default:203) |
 |NUM_CNS| Number of CNs of the network. (Default:1) |
-| PRIVATE_KEY | The private key of the genesis account having all KLAY. If not set, it is auto-generated. |
-| ADDRESS | The address of the genesis account. This address must be matched to PRIVATE_KEY. |
+|NUM_PNS| Number of PNs of the network. (Default:1) |
+|NUM_ENS| Number of ENs of the network. (Default:1) |
+|NUM_SCNS| Number of SCNs of the network. (Default:1) |
 
 ## Checking out the Status of the Network
 To check out the local Klaytn network is working well, first check the status of the docker containers. To do that, execute the following command:
@@ -87,7 +91,6 @@ $ ./7.terminate.sh
 # Developing Smart Contracts on the Local Network
 
 ## Using KlaytnIDE
-
 [KlaytnIDE](https://ide.klaytn.com) is an IDE (Integrated Development Environment) for Klaytn.
 By changing Environment on the "Run" tab to "Caver Provider" with `http://localhost:8551`,
 you can easily connect to the local Klaytn network. Enjoy developing!

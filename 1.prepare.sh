@@ -5,7 +5,7 @@ NETWORK_ID=203
 NUM_CNS=1
 NUM_PNS=1
 NUM_ENS=1
-NUM_SCN=1
+NUM_SCNS=1
 
 # Download klaytn docker image.
 docker pull klaytn/klaytn:latest
@@ -14,5 +14,5 @@ docker pull klaytn/klaytn:latest
 docker run --rm -v ${PWD}:/homi-output klaytn/klaytn homi setup -o /homi-output \
 	--docker-image-id klaytn/klaytn:latest \
 	--chainID $CHAIN_ID --cn-num $NUM_CNS  --pn-num $NUM_PNS --en-num $NUM_ENS \
-	--servicechain --serviceChainID $SCHAIN_ID --scn-num $NUM_SCN \
+	--servicechain --serviceChainID $SCHAIN_ID --scn-num $NUM_SCNS \
 	--network-id $NETWORK_ID docker

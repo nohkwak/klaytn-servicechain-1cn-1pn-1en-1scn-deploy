@@ -34,7 +34,7 @@ $ ./1.prepare.sh
 $ ./2.start.sh
 ```
 
-It deploys a network consisting of one KCN, KPN, KEN, and KSCN each by default. You can see the logs about CN, PN, EN, SCN Nodes. If you can't find the SCN log, please refer to the FAQ below.
+It deploys a network consisting of one KCN, KPN, KEN, and KSCN each by default. You can see the logs about CN, PN, EN, SCN Nodes. If you can't find the SCN log, please refer to the [FAQ](#FAQ) below.
 
 
 ### Chainging parameters

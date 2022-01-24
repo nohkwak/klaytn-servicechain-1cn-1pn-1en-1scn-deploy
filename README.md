@@ -34,7 +34,7 @@ $ ./1.prepare.sh
 $ ./2.start.sh
 ```
 
-It deploys a network consisting of one KCN, KPN, KEN, and KSCN each by default. 
+It deploys a network consisting of one KCN, KPN, KEN, and KSCN each by default. You can see the logs about CN, PN, EN, SCN Nodes. If you can't find the SCN log, please refer to the FAQ below.
 
 
 ### Chainging parameters
@@ -98,7 +98,7 @@ you can easily connect to the local Klaytn network. Enjoy developing!
 # FAQ
 
 ## SCN is not working
-IF SCN is not generating blocks properly, Try restarting SCN
+IF SCN is not generating blocks properly, try restarting SCN. 
 
 ```bash
 $ docker-compose restart SCN-0

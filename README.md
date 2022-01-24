@@ -53,6 +53,12 @@ To check out the local Klaytn network is working well, first check the status of
 $ ./3.status.sh
 ```
 
+If SCN is not generating blocks properly,Try restarting SCN
+
+```bash
+$ docker-compose restart SCN-0
+```
+
 ## Getting logs
 After executing `2.start.sh`, it prints logs for the klaytn network.
 If you want to print out the logs in another shell, execute the following command:

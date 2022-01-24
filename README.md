@@ -53,12 +53,6 @@ To check out the local Klaytn network is working well, first check the status of
 $ ./3.status.sh
 ```
 
-If SCN is not generating blocks properly,Try restarting SCN
-
-```bash
-$ docker-compose restart SCN-0
-```
-
 ## Getting logs
 After executing `2.start.sh`, it prints logs for the klaytn network.
 If you want to print out the logs in another shell, execute the following command:
@@ -97,4 +91,13 @@ $ ./7.terminate.sh
 [KlaytnIDE](https://ide.klaytn.com) is an IDE (Integrated Development Environment) for Klaytn.
 By changing Environment on the "Run" tab to "Caver Provider" with `http://localhost:8551`,
 you can easily connect to the local Klaytn network. Enjoy developing!
+
+# FAQ
+
+## SCN is not working
+IF SCN is not generating blocks properly, Try restarting SCN
+
+```bash
+$ docker-compose restart SCN-0
+```
 

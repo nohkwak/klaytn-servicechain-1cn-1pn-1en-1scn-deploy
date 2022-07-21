@@ -97,10 +97,38 @@ you can easily connect to the local Klaytn network. Enjoy developing!
 
 # FAQ
 
+## Setting parenetOperator on CN
+```bash
+kcn attach --datadir ~/klaytn
+
+personal.importRawKey('hexkey of SCN', '')
+personal.unlockAccount( personal.listAccounts[0], '', 999999999)
+klay.sendTransaction({from: personal.listAccounts[0] , to: "address of parentOperator", value: klay.toPeb(10000, 'KLAY')})
+
+klay.getBalance( personal.listAccounts[0] )
+klay.getBalance("address of parentOperator")
+```
+
+
+## Setting childOperator on SCN 
+```bash
+kscn attach --datadir ~/klaytn
+
+personal.importRawKey('hexkey of SCN', '')
+personal.unlockAccount( personal.listAccounts[0], '', 999999999)
+klay.sendTransaction({from: personal.listAccounts[0], to: subbridge.childOperator, value: klay.toPeb(10000, 'KLAY')})
+
+klay.getBalance( personal.listAccounts[0] )
+klay.getBalance( subbridge.childOperator )
+
+subbridge.anchoring( true )
+subbridge.latestAnchoredBlockNumber
+```
+
+
 ## SCN is not working
 IF SCN is not generating blocks properly, try restarting SCN. 
 
 ```bash
 $ docker-compose restart SCN-0
 ```
-

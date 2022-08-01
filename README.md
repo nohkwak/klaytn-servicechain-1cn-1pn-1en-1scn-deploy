@@ -97,16 +97,16 @@ you can easily connect to the local Klaytn network. Enjoy developing!
 
 # FAQ
 
-## Setting parenetOperator on CN
+## Setting parenetOperator on EN
 ```bash
-kcn attach --datadir ~/klaytn
+ken attach --datadir ~/klaytn
 
-personal.importRawKey('hexkey of SCN', '')
+personal.importRawKey('HEXKEY of CN', '')
 personal.unlockAccount( personal.listAccounts[0], '', 999999999)
-klay.sendTransaction({from: personal.listAccounts[0] , to: "address of parentOperator", value: klay.toPeb(10000, 'KLAY')})
+klay.sendTransaction({from: personal.listAccounts[0] , to: "ADDRESS of parentOperator", value: klay.toPeb(10000, 'KLAY')})
 
 klay.getBalance( personal.listAccounts[0] )
-klay.getBalance("address of parentOperator")
+klay.getBalance("ADDRESS of parentOperator")
 ```
 
 
@@ -114,7 +114,7 @@ klay.getBalance("address of parentOperator")
 ```bash
 kscn attach --datadir ~/klaytn
 
-personal.importRawKey('hexkey of SCN', '')
+personal.importRawKey('HEXKEY of SCN', '')
 personal.unlockAccount( personal.listAccounts[0], '', 999999999)
 klay.sendTransaction({from: personal.listAccounts[0], to: subbridge.childOperator, value: klay.toPeb(10000, 'KLAY')})
 

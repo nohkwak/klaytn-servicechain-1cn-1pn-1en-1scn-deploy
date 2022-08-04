@@ -109,6 +109,7 @@ klay.sendTransaction({from: personal.listAccounts[0], to: subbridge.childOperato
 klay.getBalance( personal.listAccounts[0] )
 klay.getBalance( subbridge.childOperator )
 
+subbridge.parentOperator
 subbridge.anchoring( true )
 subbridge.latestAnchoredBlockNumber
 ```

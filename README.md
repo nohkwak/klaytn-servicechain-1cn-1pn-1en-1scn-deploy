@@ -95,19 +95,7 @@ $ ./7.terminate.sh
 By changing Environment on the "Run" tab to "Caver Provider" with `http://localhost:8551`,
 you can easily connect to the local Klaytn network. Enjoy developing!
 
-# FAQ
-
-## Setting parenetOperator on EN
-```bash
-ken attach --datadir ~/klaytn
-
-personal.importRawKey('HEXKEY of CN', '')
-personal.unlockAccount( personal.listAccounts[0], '', 999999999)
-klay.sendTransaction({from: personal.listAccounts[0] , to: "ADDRESS of parentOperator", value: klay.toPeb(10000, 'KLAY')})
-
-klay.getBalance( personal.listAccounts[0] )
-klay.getBalance("ADDRESS of parentOperator")
-```
+# Tips
 
 
 ## Setting childOperator on SCN 
@@ -123,6 +111,19 @@ klay.getBalance( subbridge.childOperator )
 
 subbridge.anchoring( true )
 subbridge.latestAnchoredBlockNumber
+```
+
+
+## Setting parenetOperator on EN
+```bash
+ken attach --datadir ~/klaytn
+
+personal.importRawKey('HEXKEY of CN', '')
+personal.unlockAccount( personal.listAccounts[0], '', 999999999)
+klay.sendTransaction({from: personal.listAccounts[0] , to: "ADDRESS of parentOperator", value: klay.toPeb(10000, 'KLAY')})
+
+klay.getBalance( personal.listAccounts[0] )
+klay.getBalance("ADDRESS of parentOperator")
 ```
 
 

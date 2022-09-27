@@ -106,7 +106,7 @@ $ docker exec -it <<name>> bash
 ```bash
 kscn attach --datadir klaytn
 
-personal.importRawKey('HEXKEY of SCN', '')
+personal.importRawKey('b79333fd93bd5f5c3a9f791f2d9ce0e3a92570d8a0c1bef0db5316d845b25784', '')
 personal.unlockAccount( personal.listAccounts[0], '', 999999999)
 klay.sendTransaction({from: personal.listAccounts[0], to: subbridge.childOperator, value: klay.toPeb(10000, 'KLAY')})
 
@@ -123,7 +123,7 @@ subbridge.latestAnchoredBlockNumber
 ```bash
 ken attach --datadir klaytn
 
-personal.importRawKey('HEXKEY of CN', '')
+personal.importRawKey('b79333fd93bd5f5c3a9f791f2d9ce0e3a92570d8a0c1bef0db5316d845b25784', '')
 personal.unlockAccount( personal.listAccounts[0], '', 999999999)
 klay.sendTransaction({from: personal.listAccounts[0] , to: "ADDRESS of parentOperator", value: klay.toPeb(10000, 'KLAY')})
 

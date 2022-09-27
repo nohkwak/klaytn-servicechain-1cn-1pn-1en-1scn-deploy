@@ -1,0 +1,183 @@
+version: '3'
+services:
+  CN-0:
+    hostname: CN-0
+    image: klaytn-nohkwak-0.5
+    ports:
+      - '32323:32323'
+      - '8551:8551'
+      - '61001:61001'
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        mkdir -p /klaytn
+        echo '{"config":{"chainId":1000,"istanbulCompatibleBlock":0,"londonCompatibleBlock":0,"ethTxTypeCompatibleBlock":0,"istanbul":{"epoch":3600,"policy":0,"sub":22},"unitPrice":0,"deriveShaImpl":2,"governance":null},"timestamp":"0x62d51c2b","extraData":"0x0000000000000000000000000000000000000000000000000000000000000000f85ad5943a299666f0c2d07ea8aa9c7a789af138afc12b57b8410000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c0","governanceData":null,"blockScore":"0x1","alloc":{"3a299666f0c2d07ea8aa9c7a789af138afc12b57":{"balance":"0x2540be400000000000000000000000000000000"}},"number":"0x0","gasUsed":"0x0","parentHash":"0x0000000000000000000000000000000000000000000000000000000000000000"}' > /klaytn/genesis.json
+        echo '["kni://ac9c4c02e109d0c03bc62485f838108258d21d7509cd32b1b3a74b1df8ecf8a1983faf5f2a9c2519c86b044986982dba0879fefba5f2519ae570a562393b0879@172.16.239.10:32323?discport=0\u0026ntype=cn"]' > /klaytn/static-nodes.json
+        kcn --datadir "/klaytn" init "/klaytn/genesis.json"
+        echo "# docker-compose" >> /klaytn-docker-pkg/conf/kcnd.conf
+        echo 'NETWORK=""' >> /klaytn-docker-pkg/conf/kcnd.conf
+        echo 'DATA_DIR="/klaytn"' >> /klaytn-docker-pkg/conf/kcnd.conf
+        echo 'LOG_DIR="$$DATA_DIR/log"' >> /klaytn-docker-pkg/conf/kcnd.conf
+        echo 'RPC_ENABLE=1' >> /klaytn-docker-pkg/conf/kcnd.conf
+        echo 'RPC_API="db,eth,klay,net,web3,miner,personal,txpool,debug,admin,istanbul,mainbridge,subbridge"' >> /klaytn-docker-pkg/conf/kcnd.conf
+        echo 'NETWORK_ID="203"' >> /klaytn-docker-pkg/conf/kcnd.conf
+        echo 'NO_DISCOVER=1' >> /klaytn-docker-pkg/conf/kcnd.conf
+        echo 'ADDITIONAL="$$ADDITIONAL --identity \"CN-0\""' >> /klaytn-docker-pkg/conf/kcnd.conf
+        echo 'ADDITIONAL="$$ADDITIONAL --nodekeyhex b79333fd93bd5f5c3a9f791f2d9ce0e3a92570d8a0c1bef0db5316d845b25784"' >> /klaytn-docker-pkg/conf/kcnd.conf
+        echo 'REWARDBASE=0x3a299666f0C2d07ea8aA9c7a789af138aFc12b57' >> /klaytn-docker-pkg/conf/kcnd.conf
+        echo 'ADDITIONAL="$$ADDITIONAL --debug --metrics --prometheus"' >> /klaytn-docker-pkg/conf/kcnd.conf
+        /klaytn-docker-pkg/bin/kcnd start
+        sleep 5
+        ken attach --exec "personal.importRawKey('b79333fd93bd5f5c3a9f791f2d9ce0e3a92570d8a0c1bef0db5316d845b25784', '')" http://localhost:8551
+        ken attach --exec "personal.unlockAccount('0x3a299666f0C2d07ea8aA9c7a789af138aFc12b57', '', 999999999)" http://localhost:8551
+        tail -F klaytn/log/kcnd.out
+        stdin_open: true # docker run -i
+        tty: true        # docker run -t
+    networks:
+      app_net:
+        ipv4_address: 172.16.239.10
+    restart: "no"
+  PN-0:
+    hostname: PN-0
+    image: klaytn-nohkwak-0.5
+    ports:
+      - '32324:32323'
+      - '8552:8551'
+      - '61002:61001'
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        mkdir -p /klaytn
+        echo '{"config":{"chainId":1000,"istanbulCompatibleBlock":0,"londonCompatibleBlock":0,"ethTxTypeCompatibleBlock":0,"istanbul":{"epoch":3600,"policy":0,"sub":22},"unitPrice":0,"deriveShaImpl":2,"governance":null},"timestamp":"0x62d51c2b","extraData":"0x0000000000000000000000000000000000000000000000000000000000000000f85ad5943a299666f0c2d07ea8aa9c7a789af138afc12b57b8410000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c0","governanceData":null,"blockScore":"0x1","alloc":{"3a299666f0c2d07ea8aa9c7a789af138afc12b57":{"balance":"0x2540be400000000000000000000000000000000"}},"number":"0x0","gasUsed":"0x0","parentHash":"0x0000000000000000000000000000000000000000000000000000000000000000"}' > /klaytn/genesis.json
+        echo '["kni://ac9c4c02e109d0c03bc62485f838108258d21d7509cd32b1b3a74b1df8ecf8a1983faf5f2a9c2519c86b044986982dba0879fefba5f2519ae570a562393b0879@172.16.239.10:32323?discport=0\u0026ntype=cn"]' > /klaytn/static-nodes.json
+        kpn --datadir "/klaytn" init "/klaytn/genesis.json"
+        echo "# docker-compose" >> /klaytn-docker-pkg/conf/kpnd.conf
+        echo 'NETWORK=""' >> /klaytn-docker-pkg/conf/kpnd.conf
+        echo 'DATA_DIR="/klaytn"' >> /klaytn-docker-pkg/conf/kpnd.conf
+        echo 'LOG_DIR="$$DATA_DIR/log"' >> /klaytn-docker-pkg/conf/kpnd.conf
+        echo 'RPC_ENABLE=1' >> /klaytn-docker-pkg/conf/kpnd.conf
+        echo 'RPC_API="db,eth,klay,net,web3,miner,personal,txpool,debug,admin,istanbul,mainbridge,subbridge"' >> /klaytn-docker-pkg/conf/kpnd.conf
+        echo 'NETWORK_ID="203"' >> /klaytn-docker-pkg/conf/kpnd.conf
+        echo 'NO_DISCOVER=1' >> /klaytn-docker-pkg/conf/kpnd.conf
+        echo 'ADDITIONAL="$$ADDITIONAL --identity \"PN-0\""' >> /klaytn-docker-pkg/conf/kpnd.conf
+        echo 'ADDITIONAL="$$ADDITIONAL --nodekeyhex 860d98e441aff37a3cb7a6c4aba79e4a9f49a6ee7d49d08efd55a93efb75871b"' >> /klaytn-docker-pkg/conf/kpnd.conf
+        echo 'ADDITIONAL="$$ADDITIONAL --txpool.nolocals"' >> /klaytn-docker-pkg/conf/kpnd.conf
+        echo 'ADDITIONAL="$$ADDITIONAL --debug --metrics --prometheus"' >> /klaytn-docker-pkg/conf/kpnd.conf
+        sleep 5
+        /klaytn-docker-pkg/bin/kpnd start
+        tail -F klaytn/log/kpnd.out
+        stdin_open: true # docker run -i
+        tty: true        # docker run -t
+    networks:
+      app_net:
+        ipv4_address: 172.16.239.11
+    restart: "no"
+  EN-0:
+    hostname: EN-0
+    image: klaytn-nohkwak-0.5
+    ports:
+      - '32325:32323'
+      - '8553:8551'
+      - '61003:61001'
+      - '50505:50505'
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        mkdir -p /klaytn
+        echo '{"config":{"chainId":1000,"istanbulCompatibleBlock":0,"londonCompatibleBlock":0,"ethTxTypeCompatibleBlock":0,"istanbul":{"epoch":3600,"policy":0,"sub":22},"unitPrice":0,"deriveShaImpl":2,"governance":null},"timestamp":"0x62d51c2b","extraData":"0x0000000000000000000000000000000000000000000000000000000000000000f85ad5943a299666f0c2d07ea8aa9c7a789af138afc12b57b8410000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c0","governanceData":null,"blockScore":"0x1","alloc":{"3a299666f0c2d07ea8aa9c7a789af138afc12b57":{"balance":"0x2540be400000000000000000000000000000000"}},"number":"0x0","gasUsed":"0x0","parentHash":"0x0000000000000000000000000000000000000000000000000000000000000000"}' > /klaytn/genesis.json
+        echo '["kni://bb4ed9710851f1a4cce3e199286a2ad355eae922865060ffad7eb9e1ed347ebde49e52c27ee268dc93c27e0123cef3ecfb0926fe8be928992055fa73b761ef54@172.16.239.11:32323?discport=0\u0026ntype=pn"]' > /klaytn/static-nodes.json
+        ken --datadir "/klaytn" init "/klaytn/genesis.json"
+        echo "# docker-compose" >> /klaytn-docker-pkg/conf/kend.conf
+        echo 'NETWORK=""' >> /klaytn-docker-pkg/conf/kend.conf
+        echo 'DATA_DIR="/klaytn"' >> /klaytn-docker-pkg/conf/kend.conf
+        echo 'LOG_DIR="$$DATA_DIR/log"' >> /klaytn-docker-pkg/conf/kend.conf
+        echo 'RPC_ENABLE=1' >> /klaytn-docker-pkg/conf/kend.conf
+        echo 'RPC_API="db,eth,klay,net,web3,miner,personal,txpool,debug,admin,istanbul,mainbridge,subbridge"' >> /klaytn-docker-pkg/conf/kend.conf
+        echo 'NETWORK_ID="203"' >> /klaytn-docker-pkg/conf/kend.conf
+        echo 'NO_DISCOVER=1' >> /klaytn-docker-pkg/conf/kend.conf
+        echo 'ADDITIONAL="$$ADDITIONAL --identity \"EN-0\""' >> /klaytn-docker-pkg/conf/kend.conf
+        echo 'ADDITIONAL="$$ADDITIONAL --nodekeyhex 667ff1f079cc6609c5a987b0dff4c1970095ee1237a6997d4b7bd94b696d76f8"' >> /klaytn-docker-pkg/conf/kend.conf
+        echo 'SC_MAIN_BRIDGE=1' >> /klaytn-docker-pkg/conf/kend.conf
+        echo 'SC_MAIN_BRIDGE_PORT=50505' >> /klaytn-docker-pkg/conf/kend.conf
+        echo 'SC_MAIN_BRIDGE_INDEXING=1' >> /klaytn-docker-pkg/conf/kend.conf
+        echo 'ADDITIONAL="$$ADDITIONAL --debug --metrics --prometheus"' >> /klaytn-docker-pkg/conf/kend.conf
+        sleep 10
+        /klaytn-docker-pkg/bin/kend start
+        tail -F klaytn/log/kend.out
+        stdin_open: true # docker run -i
+        tty: true        # docker run -t
+    networks:
+      app_net:
+        ipv4_address: 172.16.239.12
+    restart: "no"
+  SCN-0:
+    hostname: SCN-0
+    image: klaytn-nohkwak-0.5
+    ports:
+      - '32326:32323'
+      - '8554:8551'
+      - '61004:61001'
+      - '50506:50506'
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        mkdir -p /klaytn
+        echo '{"config":{"chainId":2000,"istanbul":{"epoch":604800,"policy":0,"sub":21},"unitPrice":0,"deriveShaImpl":0,"governance":null},"timestamp":"0x62d51c2d","extraData":"0x0000000000000000000000000000000000000000000000000000000000000000f85ad59453f07202e81918b64e42197ab406511694e86042b8410000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c0","governanceData":null,"blockScore":"0x1","alloc":{"53f07202e81918b64e42197ab406511694e86042":{"balance":"0x446c3b15f9926687d2c40534fdb564000000000000"}},"number":"0x0","gasUsed":"0x0","parentHash":"0x0000000000000000000000000000000000000000000000000000000000000000"}' > /klaytn/genesis.json
+        echo '["kni://dae945e7070259a34b077038842d3791ff7e8950ff25a7cf5cbbeab50e4edf79110eb35288c3d94a134c41d7e24a783601f2faea47defee211f595be79a8076a@172.16.239.13:32323?discport=0"]' > /klaytn/static-nodes.json
+        echo '["kni://04ab2a93f074a6568342a22daec367f2dd291e0c51e7381658a3b98da911fef038dba874c1aaa198dffdd6f459a7664cd78d959df8e9cced640cb1c8c2df12b1@172.16.239.12:50505?discport=0\u0026ntype=en"]' > /klaytn/main-bridges.json
+        kscn --datadir "/klaytn" init "/klaytn/genesis.json"
+        echo "# docker-compose" >> /klaytn-docker-pkg/conf/kscnd.conf
+        echo 'NETWORK=""' >> /klaytn-docker-pkg/conf/kscnd.conf
+        echo 'DATA_DIR="/klaytn"' >> /klaytn-docker-pkg/conf/kscnd.conf
+        echo 'LOG_DIR="$$DATA_DIR/log"' >> /klaytn-docker-pkg/conf/kscnd.conf
+        echo 'RPC_ENABLE=1' >> /klaytn-docker-pkg/conf/kscnd.conf
+        echo 'RPC_API="db,eth,klay,net,web3,miner,personal,txpool,debug,admin,istanbul,mainbridge,subbridge"' >> /klaytn-docker-pkg/conf/kscnd.conf
+        echo 'NETWORK_ID="203"' >> /klaytn-docker-pkg/conf/kscnd.conf
+        echo 'NO_DISCOVER=1' >> /klaytn-docker-pkg/conf/kscnd.conf
+        echo 'ADDITIONAL="$$ADDITIONAL --identity \"SCN-0\""' >> /klaytn-docker-pkg/conf/kscnd.conf
+        echo 'ADDITIONAL="$$ADDITIONAL --nodekeyhex 7d621cc7cac4a95adf52f7e5be05c06945ecd967f84242fbd9271da2f611a7d9"' >> /klaytn-docker-pkg/conf/kscnd.conf
+        echo 'PORT=32323' >> /klaytn-docker-pkg/conf/kscnd.conf
+        echo 'ADDITIONAL="$$ADDITIONAL --parentchainid 1000"' >> /klaytn-docker-pkg/conf/kscnd.conf
+        echo 'SC_SUB_BRIDGE=1' >> /klaytn-docker-pkg/conf/kscnd.conf
+        echo 'SC_SUB_BRIDGE_PORT=50506' >> /klaytn-docker-pkg/conf/kscnd.conf
+        echo 'ADDITIONAL="$$ADDITIONAL --debug --metrics --prometheus"' >> /klaytn-docker-pkg/conf/kscnd.conf
+        sleep 15
+        /klaytn-docker-pkg/bin/kscnd start
+        tail -F klaytn/log/kscnd.out
+        stdin_open: true # docker run -i
+        tty: true        # docker run -t
+    networks:
+      app_net:
+        ipv4_address: 172.16.239.13
+    restart: "no"
+  prometheus:
+    hostname: prometheus
+    image: prom/prometheus:v2.3.2
+    ports:
+      - 9090:9090
+    volumes:
+      - "./prometheus.yml:/etc/prometheus/prometheus.yml"
+    networks:
+      app_net:
+        ipv4_address: 172.16.239.9
+    restart: "no"
+  grafana:
+    hostname: grafana
+    image: grafana/grafana:5.2.2
+    ports:
+      - 3000:3000
+    networks:
+      app_net:
+        ipv4_address: 172.16.239.8
+    restart: "no"
+networks:
+  app_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.16.239.0/24

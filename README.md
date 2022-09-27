@@ -97,10 +97,14 @@ you can easily connect to the local Klaytn network. Enjoy developing!
 
 # Tips
 
+## Connecting 
+```bash
+$ docker exec -it <<name>> bash
+```
 
 ## Setting childOperator on SCN 
 ```bash
-kscn attach --datadir ~/klaytn
+kscn attach --datadir /klaytn
 
 personal.importRawKey('HEXKEY of SCN', '')
 personal.unlockAccount( personal.listAccounts[0], '', 999999999)
@@ -117,7 +121,7 @@ subbridge.latestAnchoredBlockNumber
 
 ## Setting parenetOperator on EN
 ```bash
-ken attach --datadir ~/klaytn
+ken attach --datadir /klaytn
 
 personal.importRawKey('HEXKEY of CN', '')
 personal.unlockAccount( personal.listAccounts[0], '', 999999999)
